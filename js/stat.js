@@ -35,27 +35,27 @@ window.renderStatistics = function (ctx, names, times) {
 
   var step = heightHistogram / max;
   // var step = heightHistogram / (max - 0); // в демке (max - 0)?
+  var maxSaturation = 100; // Максимальное значение насыщенности.
+  var minSaturation = 10; // Минимальное значение насыщенности.
 
   for (var e = 0; e < names.length; e++) {
     var timeRound = Math.round(times[e]);
 
+    var userHeightHistogram = times[e] * step; // Высота гистограммы отдельного игрока.
+    var userHistogramPositionTop = (heightHistogram - userHeightHistogram) + histogramPositionTop; // Начало(сверху) гистограммы отдельного игрока.
+
     // Вывод времени каждого игрока.
     ctx.fillStyle = '#000000';
     ctx.font = '16px PT Mono';
-    ctx.fillText(timeRound, histogramPositionLeft, 75);
+    ctx.fillText(timeRound, histogramPositionLeft, userHistogramPositionTop - 15);
 
     // Цвет гистограммы.
-    var maxSaturation = 100;
-    var minSaturation = 10;
     var randomSaturation = Math.floor(Math.random() * (maxSaturation - minSaturation)) + minSaturation;
     if (names[e] === 'Вы') {
       ctx.fillStyle = '#ff0000';
     } else {
       ctx.fillStyle = 'hsl(240, ' + randomSaturation + '%, 50%)';
     }
-
-    var userHeightHistogram = times[e] * step; // Высота гистограммы отдельного игрока.
-    var userHistogramPositionTop = (heightHistogram - userHeightHistogram) + histogramPositionTop; // Начало(сверху) гистограммы отдельного игрока.
 
     // Гистограмма отдельного игрока.
     ctx.fillRect(histogramPositionLeft, userHistogramPositionTop, widthHistogram, userHeightHistogram);
