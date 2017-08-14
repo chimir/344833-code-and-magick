@@ -3,7 +3,7 @@
 window.renderStatistics = function (ctx, names, times) {
   // Функция рисования прямоугольника с заливкой.
   var drawRectangle = function (x, y, width, height, color) {
-    ctx.fillStyle = color;
+    ctx.fillStyle = color || '#000000';
     ctx.fillRect(x, y, width, height);
   };
 
@@ -43,7 +43,6 @@ window.renderStatistics = function (ctx, names, times) {
   }
 
   var step = heightHistogram / max;
-  // var step = heightHistogram / (max - 0); // в демке (max - 0)?
   var maxSaturation = 100; // Максимальное значение насыщенности.
   var minSaturation = 10; // Минимальное значение насыщенности.
 
