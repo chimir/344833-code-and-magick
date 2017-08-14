@@ -1,21 +1,30 @@
 'use strict';
 
 window.renderStatistics = function (ctx, names, times) {
+  // Функция рисования прямоугольника с заливкой.
+  var drawRectangle = function (x, y, width, height, color) {
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, width, height);
+  };
+
+  // Функция написания текста.
+  var writeText = function (text, x, y, color, font, baseline) {
+    ctx.fillStyle = color || '#000000';
+    ctx.font = font || '16px PT Mono';
+    ctx.textBaseline = baseline || 'hanging';
+    ctx.fillText(text, x, y);
+  };
+
   // Тень облака.
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-  ctx.fillRect(110, 20, 420, 270);
+  drawRectangle(110, 20, 420, 270, 'rgba(0, 0, 0, 0.7)');
 
   // Облако.
-  ctx.fillStyle = '#ffffff';
   ctx.strokeRect(100, 10, 420, 270);
-  ctx.fillRect(100, 10, 420, 270);
+  drawRectangle(100, 10, 420, 270, '#ffffff');
 
   // Заголовки.
-  ctx.fillStyle = '#000000';
-  ctx.font = '16px PT Mono';
-  ctx.textBaseline = 'hanging';
-  ctx.fillText('Ура вы победили!', 120, 30);
-  ctx.fillText('Список результатов:', 120, 50);
+  writeText('Ура вы победили!', 120, 30);
+  writeText('Список результатов:', 120, 50);
 
   var widthHistogram = 40;
   var widthBetween = 50;
@@ -45,25 +54,22 @@ window.renderStatistics = function (ctx, names, times) {
     var userHistogramPositionTop = (heightHistogram - userHeightHistogram) + histogramPositionTop; // Начало(сверху) гистограммы отдельного игрока.
 
     // Вывод времени каждого игрока.
-    ctx.fillStyle = '#000000';
-    ctx.font = '16px PT Mono';
-    ctx.fillText(timeRound, histogramPositionLeft, userHistogramPositionTop - 15);
+    writeText(timeRound, histogramPositionLeft, userHistogramPositionTop - 15);
 
     // Цвет гистограммы.
     var randomSaturation = Math.floor(Math.random() * (maxSaturation - minSaturation)) + minSaturation;
+    var userColorHistogram = '#000000';
     if (names[e] === 'Вы') {
-      ctx.fillStyle = '#ff0000';
+      userColorHistogram = '#ff0000';
     } else {
-      ctx.fillStyle = 'hsl(240, ' + randomSaturation + '%, 50%)';
+      userColorHistogram = 'hsl(240, ' + randomSaturation + '%, 50%)';
     }
 
     // Гистограмма отдельного игрока.
-    ctx.fillRect(histogramPositionLeft, userHistogramPositionTop, widthHistogram, userHeightHistogram);
+    drawRectangle(histogramPositionLeft, userHistogramPositionTop, widthHistogram, userHeightHistogram, userColorHistogram);
 
     // Вывод имени каждого игрока.
-    ctx.fillStyle = '#000000';
-    ctx.font = '16px PT Mono';
-    ctx.fillText(names[e], histogramPositionLeft, 250);
+    writeText(names[e], histogramPositionLeft, 250);
 
     histogramPositionLeft = histogramPositionLeft + widthHistogram + widthBetween;
   }
