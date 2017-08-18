@@ -82,14 +82,20 @@ var similarWizardLabel = similarWizardOption('.setup-similar-label'); // Имя.
 var similarWizardList = overlay.querySelector('.setup-similar-list'); // Контейнер, куда вставляем персонажей.
 var fragment = document.createDocumentFragment();
 
-for (i = 0; i < 4; i++) {
+var wizard = function () {
   similarWizardLabel.textContent = similarCharacters[i].name;
   similarWizardCoat.setAttribute('fill', similarCharacters[i].coatColor);
   similarWizardEyes.setAttribute('fill', similarCharacters[i].eyesColor);
+};
 
+var similarWizards = function () {
   var wizardElement = similarWizardTemplate.cloneNode(true);
-
   fragment.appendChild(wizardElement);
+};
+
+for (i = 0; i < 4; i++) {
+  wizard();
+  similarWizards();
 }
 
 similarWizardList.appendChild(fragment); // Вывод всех персонажей.
