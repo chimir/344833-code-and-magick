@@ -49,21 +49,26 @@ var random = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-var similarCharacters = []; // Похожие персонажи.
-for (var i = 0; i < 4; i++) {
-  var name = WIZARD_NAMES[random(minRandomNumber, maxRandomNameNumber)]; // Случайное имя.
-  var surname = WIZARD_SURNAMES[random(minRandomNumber, maxRandomSurnameNumber)]; // Случайная фамилия.
-  var coatColor = COAT_COLOR[random(minRandomNumber, maxRandomCoatColor)]; // Случайный цвет мантии.
-  var eyesColor = EYES_COLOR[random(minRandomNumber, maxRandomEyesColor)]; // Случайный чвет глаз.
-
-  var wizardOptions = {
-    'name': name + ' ' + surname,
-    'coatColor': coatColor,
-    'eyesColor': eyesColor
+// Опции персонажа (имя, цвет плаща и глаз).
+var wizardOptions = function () {
+  return {
+    'name': WIZARD_NAMES[random(minRandomNumber, maxRandomNameNumber)] + ' ' + WIZARD_SURNAMES[random(minRandomNumber, maxRandomSurnameNumber)],
+    'coatColor': COAT_COLOR[random(minRandomNumber, maxRandomCoatColor)],
+    'eyesColor': EYES_COLOR[random(minRandomNumber, maxRandomEyesColor)]
   };
+};
 
-  similarCharacters.push(wizardOptions);
-}
+// Создание массива из персонажей.
+var similarCharactersArray = function (data) {
+  var array = [];
+  for (var i = 0; i < 4; i++) {
+    array.push(data());
+  }
+  return array;
+};
+
+// Похожие персонажи.
+var similarCharacters = similarCharactersArray(wizardOptions);
 
 var overlay = document.querySelector('.overlay'); // Всплывающее окно.
 overlay.classList.remove('hidden');
@@ -82,20 +87,20 @@ var similarWizardLabel = similarWizardOption('.setup-similar-label'); // Имя.
 var similarWizardList = overlay.querySelector('.setup-similar-list'); // Контейнер, куда вставляем персонажей.
 var fragment = document.createDocumentFragment();
 
-var wizard = function () {
-  similarWizardLabel.textContent = similarCharacters[i].name;
-  similarWizardCoat.setAttribute('fill', similarCharacters[i].coatColor);
-  similarWizardEyes.setAttribute('fill', similarCharacters[i].eyesColor);
+var wizard = function (data) {
+  similarWizardLabel.textContent = data.name;
+  similarWizardCoat.setAttribute('fill', data.coatColor);
+  similarWizardEyes.setAttribute('fill', data.eyesColor);
 };
 
-var similarWizards = function () {
-  var wizardElement = similarWizardTemplate.cloneNode(true);
+var similarWizards = function (data) {
+  var wizardElement = data.cloneNode(true);
   fragment.appendChild(wizardElement);
 };
 
-for (i = 0; i < 4; i++) {
-  wizard();
-  similarWizards();
+for (var i = 0; i < 4; i++) {
+  wizard(similarCharacters[i]);
+  similarWizards(similarWizardTemplate);
 }
 
 similarWizardList.appendChild(fragment); // Вывод всех персонажей.
