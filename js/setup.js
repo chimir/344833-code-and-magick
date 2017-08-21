@@ -75,33 +75,27 @@ overlay.classList.remove('hidden');
 overlay.querySelector('.setup-similar').classList.remove('hidden');
 
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content; // Фрагмент #similar-wizard-template.
-
-var similarWizardOption = function (selector) {
-  return similarWizardTemplate.querySelector(selector);
-};
-
-var similarWizardCoat = similarWizardOption('.wizard-coat'); // Плащ персонажа.
-var similarWizardEyes = similarWizardOption('.wizard-eyes'); // Глаза персонажа.
-var similarWizardLabel = similarWizardOption('.setup-similar-label'); // Имя.
-
 var similarWizardList = overlay.querySelector('.setup-similar-list'); // Контейнер, куда вставляем персонажей.
-var fragment = document.createDocumentFragment();
 
-var wizard = function (data) {
-  similarWizardLabel.textContent = data.name;
-  similarWizardCoat.setAttribute('fill', data.coatColor);
-  similarWizardEyes.setAttribute('fill', data.eyesColor);
-};
-
+// описываем персонажа (имя, цвет плаща и глаз).
 var similarWizards = function (data) {
-  var wizardElement = data.cloneNode(true);
-  fragment.appendChild(wizardElement);
+  var wizardElement = similarWizardTemplate.cloneNode(true);
+
+  wizardElement.querySelector('.setup-similar-label').textContent = data.name;
+  wizardElement.querySelector('.wizard-coat').setAttribute('fill', data.coatColor);
+  wizardElement.querySelector('.wizard-eyes').setAttribute('fill', data.eyesColor);
+
+  return wizardElement;
 };
 
-for (var i = 0; i < 4; i++) {
-  wizard(similarCharacters[i]);
-  similarWizards(similarWizardTemplate);
-}
+// Вставка персонажей в контейнер.
+var printSimilarWizards = function () {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < 4; i++) {
+    fragment.appendChild(similarWizards(similarCharacters[i]));
+  }
 
-similarWizardList.appendChild(fragment); // Вывод всех персонажей.
+  return similarWizardList.appendChild(fragment);
+};
 
+printSimilarWizards(); // Вывод всех персонажей.
