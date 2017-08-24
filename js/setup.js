@@ -39,6 +39,19 @@ var EYES_COLOR = [
   'green'
 ];
 
+var FIREBALL_COLOR = [
+  '#ee4830',
+  '#30a8ee',
+  '#5ce6c0',
+  '#e848d5',
+  '#e6e848'
+];
+
+var KEYDOWN = {
+  ENTER: 13,
+  ESC: 27
+};
+
 var minRandomNumber = 0;
 var maxRandomNameNumber = WIZARD_NAMES.length;
 var maxRandomSurnameNumber = WIZARD_SURNAMES.length;
@@ -70,8 +83,7 @@ var similarCharactersArray = function (data) {
 // Похожие персонажи.
 var similarCharacters = similarCharactersArray(wizardOptions);
 
-var overlay = document.querySelector('.overlay'); // Всплывающее окно.
-overlay.classList.remove('hidden');
+var overlay = document.querySelector('.setup'); // Всплывающее окно.
 overlay.querySelector('.setup-similar').classList.remove('hidden');
 
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content; // Фрагмент #similar-wizard-template.
@@ -99,3 +111,76 @@ var printSimilarWizards = function () {
 };
 
 printSimilarWizards(); // Вывод всех персонажей.
+
+/**
+ * =============
+ * одеть Надежду
+ * =============
+ */
+
+// buttonClickHandler
+// onButtonClick
+var openModalButton = document.querySelector('.setup-open'); // Кнопка открытия (аватарка).
+var closeModalButton = overlay.querySelector('.setup-close'); // Кнопка закрытия (крестик).
+
+var openModal = function () {
+  overlay.classList.remove('hidden');
+};
+
+var closeModal = function () {
+  overlay.classList.add('hidden');
+};
+
+// Открываем модальное окно по клику на setup-open.
+openModalButton.addEventListener('click', function () {
+  openModal();
+});
+
+// Закрываем модальное окно по клику на setup-close.
+closeModalButton.addEventListener('click', function () {
+  closeModal();
+});
+
+// Открываем модальное окно при нажатии Enter на setup-open.
+openModalButton.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === KEYDOWN.ENTER) {
+    openModal();
+  }
+});
+
+// Закрываем модальное окно при нажатии Ssc.
+document.addEventListener('keydown', function (evt) {
+  var userNameInput = overlay.querySelector('.setup-user-name');
+  if (evt.keyCode === KEYDOWN.ESC && event.target !== userNameInput) {
+    closeModal();
+  }
+});
+
+// Закрытие модального окна при нажатии Enter на setup-close
+closeModalButton.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === KEYDOWN.ENTER) {
+    closeModal();
+  }
+});
+
+// Изменение цвета мантии персонажа по нажатию.
+var wizardCoat = overlay.querySelector('.setup-wizard .wizard-coat');
+wizardCoat.addEventListener('click', function () {
+  var wizardCoatRandomColor = COAT_COLOR[random(0, COAT_COLOR.length)];
+  wizardCoat.setAttribute('style', 'fill: ' + wizardCoatRandomColor);
+});
+
+// Изменение цвета глаз персонажа по нажатию.
+var wizardEyes = overlay.querySelector('.setup-wizard .wizard-eyes');
+wizardEyes.addEventListener('click', function () {
+  var wizardEyesRandomColor = EYES_COLOR[random(0, EYES_COLOR.length)];
+  wizardEyes.setAttribute('fill', wizardEyesRandomColor);
+});
+
+// Изменение цвета фаерболов по нажатию.
+var fireball = overlay.querySelector('.setup-fireball-wrap');
+fireball.addEventListener('click', function () {
+  var fireballRandomColor = FIREBALL_COLOR[random(0, FIREBALL_COLOR.length)];
+
+  fireball.setAttribute('style', 'background: ' + fireballRandomColor);
+});
