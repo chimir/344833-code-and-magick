@@ -149,9 +149,9 @@ openModalButton.addEventListener('keydown', function (evt) {
 });
 
 // Закрываем модальное окно при нажатии Ssc.
+var userNameInput = overlay.querySelector('.setup-user-name');
 document.addEventListener('keydown', function (evt) {
-  var userNameInput = overlay.querySelector('.setup-user-name');
-  if (evt.keyCode === KEYDOWN.ESC && event.target !== userNameInput) {
+  if (evt.keyCode === KEYDOWN.ESC && evt.target !== userNameInput) {
     closeModal();
   }
 });
@@ -183,4 +183,33 @@ fireball.addEventListener('click', function () {
   var fireballRandomColor = FIREBALL_COLOR[random(0, FIREBALL_COLOR.length)];
 
   fireball.setAttribute('style', 'background: ' + fireballRandomColor);
+});
+
+// Выводим свои сообщения об ошибке ввода в поле.
+userNameInput.addEventListener('invalid', function () {
+  if (!userNameInput.validity.valid) {
+    if (userNameInput.validity.tooShort) {
+      userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+    } else if (userNameInput.validity.tooLong) {
+      userNameInput.setCustomValidity('Имя не должно превышать 25-ти символов');
+    } else if (userNameInput.validity.valueMissing) {
+      userNameInput.setCustomValidity('Обязательное поле');
+    }
+  } else {
+    userNameInput.setCustomValidity('');
+  }
+});
+
+// Для браузера Edge добавляем проверку на длинну заполненности поля
+// и выводим соответствующее сообщение.
+userNameInput.addEventListener('input', function (evt) {
+  var target = evt.target;
+
+  if (target.value.length < 2) {
+    target.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+  } else if (target.value.length > 25) {
+    target.setCustomValidity('Имя не должно превышать 25-ти символов');
+  } else {
+    target.setCustomValidity('');
+  }
 });
