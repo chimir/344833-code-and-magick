@@ -30,21 +30,27 @@
   var wizardEyes = setupPlayer.querySelector('.setup-wizard .wizard-eyes'); // Глаза.
   var fireball = setupPlayer.querySelector('.setup-fireball-wrap'); // Фаербол.
 
-  // Изменение цвета мантии персонажа по нажатию.
-  wizardCoat.addEventListener('click', function () {
-    var wizardCoatRandomColor = COAT_COLOR[window.util.getRandom(0, COAT_COLOR.length)];
-    wizardCoat.setAttribute('style', 'fill: ' + wizardCoatRandomColor);
-  });
+  var fillElement = function (element, color) {
+    element.style.fill = color;
+  };
 
-  // Изменение цвета глаз персонажа по нажатию.
-  wizardEyes.addEventListener('click', function () {
-    var wizardEyesRandomColor = EYES_COLOR[window.util.getRandom(0, EYES_COLOR.length)];
-    wizardEyes.setAttribute('fill', wizardEyesRandomColor);
-  });
+  var changeElementBackground = function (element, color) {
+    element.style.backgroundColor = color;
+  };
 
-  // Изменение цвета фаерболов по нажатию.
-  fireball.addEventListener('click', function () {
-    var fireballRandomColor = FIREBALL_COLOR[window.util.getRandom(0, FIREBALL_COLOR.length)];
-    fireball.setAttribute('style', 'background: ' + fireballRandomColor);
-  });
+  var getCoatRandomColor = function () {
+    return COAT_COLOR[window.util.getRandom(0, COAT_COLOR.length)];
+  };
+
+  var getEyesRandomColor = function () {
+    return EYES_COLOR[window.util.getRandom(0, EYES_COLOR.length)];
+  };
+
+  var getFireballRandomColor = function () {
+    return FIREBALL_COLOR[window.util.getRandom(0, FIREBALL_COLOR.length)];
+  };
+
+  window.colorizeElement(wizardCoat, getCoatRandomColor, fillElement);
+  window.colorizeElement(wizardEyes, getEyesRandomColor, fillElement);
+  window.colorizeElement(fireball, getFireballRandomColor, changeElementBackground);
 })();
