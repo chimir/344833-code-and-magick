@@ -38,19 +38,7 @@
     element.style.backgroundColor = color;
   };
 
-  var getCoatRandomColor = function () {
-    return COAT_COLOR[window.util.getRandom(0, COAT_COLOR.length)];
-  };
-
-  var getEyesRandomColor = function () {
-    return EYES_COLOR[window.util.getRandom(0, EYES_COLOR.length)];
-  };
-
-  var getFireballRandomColor = function () {
-    return FIREBALL_COLOR[window.util.getRandom(0, FIREBALL_COLOR.length)];
-  };
-
-  window.colorizeElement(wizardCoat, getCoatRandomColor, fillElement);
-  window.colorizeElement(wizardEyes, getEyesRandomColor, fillElement);
-  window.colorizeElement(fireball, getFireballRandomColor, changeElementBackground);
+  window.colorizeElement(wizardCoat, COAT_COLOR, fillElement);
+  window.colorizeElement(wizardEyes, EYES_COLOR, fillElement);
+  window.colorizeElement(fireball, FIREBALL_COLOR, changeElementBackground);
 })();

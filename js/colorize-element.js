@@ -1,8 +1,13 @@
 'use strict';
 (function () {
-  window.colorizeElement = function (element, color, onColorChange) {
+  var getRandomColor = function (arr) {
+    return arr[window.util.getRandom(0, arr.length)];
+  };
+
+  window.colorizeElement = function (element, arr, onColorChange) {
     element.addEventListener('click', function () {
-      onColorChange(element, color());
+      var color = getRandomColor(arr);
+      onColorChange(element, color);
     });
   };
 })();
